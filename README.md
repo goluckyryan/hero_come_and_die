@@ -1,4 +1,4 @@
-usien Qt6
+use Qt6
 
 qmake -project
 
