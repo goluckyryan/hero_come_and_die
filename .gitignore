@@ -1,0 +1,7 @@
+hero
+
+moc_*
+
+.qmakr.stash
+*.pro
+Makefile
