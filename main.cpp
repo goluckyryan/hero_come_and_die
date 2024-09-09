@@ -6,6 +6,7 @@
 
 #include "constant.h"
 #include "maze.h"
+#include "creature.h"
 #include "hero.h"
 #include "monster.h"
 
@@ -42,8 +43,8 @@ int main() {
   srand(time(0));
 
   Maze * maze = new Maze(MAZE_WIDTH, MAZE_HEIGHT, MAZE_FRAC);
-  Hero hero(MAZE_WIDTH/2, MAZE_HEIGHT/2, maze);
-  maze->setWall(hero.getX(), hero.getY(), false);
+  Hero hero(MAZE_WIDTH/2 , 0, maze);
+  maze->setWall(hero.getYI(), hero.getXI(), false);
 
   std::vector<Monster> mon;
   int monCount = 0;
@@ -51,7 +52,7 @@ int main() {
     Monster haha(rand()%MAZE_WIDTH, rand()%MAZE_HEIGHT, i, 1, maze);
     mon.push_back(haha);
     monCount ++;
-    maze->setWall(mon[i].getX(), mon[i].getY(), false);
+    maze->setWall(mon[i].getYI(), mon[i].getXI(), false);
   }
 
   bool running = true;
@@ -73,17 +74,16 @@ int main() {
       }
     }
     
-    SDL_Delay(100);
+    SDL_Delay(5);
 
-    hero.moveRandomly();
+    hero.move();
     maze->drawMaze();
     hero.draw();
     for( int i = 0; i < (int) mon.size(); i++) {
-      if( mon[i].getLevel() == 0 ) continue;
-      mon[i].moveRandomly();
+      mon[i].move();
       mon[i].draw();
 
-      if( mon[i].getX() == hero.getX() && mon[i].getY() == hero.getY() ){
+      if( mon[i].getXI() == hero.getXI() && mon[i].getYI() == hero.getYI() ){
         printf("mon-%d (%d) catches hero (%d)\n", i, mon[i].getLevel(), hero.getLevel());
         if( hero.getLevel() >= mon[i].getLevel() ){
           hero.addLevel( +1 );
@@ -96,8 +96,8 @@ int main() {
       }
 
       for( int j = 0; j < i; j++) {
-        if( mon[i].getX() == mon[j].getX() && mon[i].getY() == mon[j].getY() ){
-          if( mon[j].getLevel() == 0 ) continue;
+        if( mon[i].getXI() == mon[j].getXI() && mon[i].getYI() == mon[j].getYI() ){
+          // if( mon[j].getLevel() == 0 ) continue;
           printf("mon-%d (%d) meet mon-%d (%d)\n", i, mon[i].getLevel(), j, mon[j].getLevel());
           if( mon[j].getLevel() >= mon[i].getLevel() ){
             mon[j].addLevel(+1);
@@ -112,6 +112,8 @@ int main() {
           }
         }
       }
+
+      if( mon[i].getLevel() == 0 ) mon.erase(mon.begin() + i);
 
     }
 

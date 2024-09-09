@@ -7,7 +7,7 @@ LDFLAGS = -lSDL2 -lSDL2main
 TARGET = hero
 
 # Build the executable
-$(TARGET): main.cpp maze.h hero.h monster.h constant.h
+$(TARGET): main.cpp maze.h hero.h monster.h creature.h constant.h
 	$(CXX) $(CFLAGS) -o $(TARGET) main.cpp $(LDFLAGS)
 
 # Clean up the build directory
