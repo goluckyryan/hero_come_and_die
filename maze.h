@@ -67,7 +67,8 @@ public:
   }
 
   short wallID(int y, int x) const {
-    return maze[y][x];
+    if( y >= 0 && x >= 0 && y < MAZE_HEIGHT - 1 && x < MAZE_WIDTH -1 ) return maze[y][x];
+    return 1;
   }
 
   int getWidth() const { return width; }

@@ -40,6 +40,17 @@ public:
 
   void changeDireaction(){
     bool OK = false;
+    //check if there any space
+    if( maze->wallID(yI - 1, xI) == 1 && 
+        maze->wallID(yI, xI + 1) == 1 && 
+        maze->wallID(yI + 1, xI) == 1 &&
+        maze->wallID(yI,xI - 1) == 1 ) {
+      dx = 0;
+      dy = 0;
+      direction = Direction::DOWN;
+      return;
+    }
+
     do{
       int randomDirection = rand() % 4;
       direction = static_cast<Direction>(randomDirection);
