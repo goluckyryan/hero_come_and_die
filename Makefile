@@ -1,7 +1,7 @@
 # Set the compiler and linker flags
 CXX = g++
 CFLAGS = -Wall -g
-LDFLAGS = -lSDL2 -lSDL2main
+LDFLAGS = -lSDL2 -lSDL2main -lSDL2_ttf
 
 # Target: executable name
 TARGET = hero

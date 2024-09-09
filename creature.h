@@ -4,6 +4,7 @@
 #include "constant.h"
 #include "maze.h"
 
+
 class Creature {
 public:
   Creature(int xI, int yI, Maze * maze) : xI(xI), yI(yI), maze(maze) {

@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -36,15 +36,38 @@ bool createWindowAndRenderer() {
   return true;
 }
 
+bool initTTF() {
+  if (TTF_Init() != 0) {
+    std::cerr << "Error initializing SDL_ttf: " << TTF_GetError() << std::endl;
+    return false;
+  }
+  return true;
+}
+
+// Load a font
+bool loadFont(const char* fontPath, int fontSize) {
+  font = TTF_OpenFont(fontPath, fontSize);
+  if (font == nullptr) {
+    std::cerr << "Error loading font: " << TTF_GetError() << std::endl;
+    return false;
+  }
+  return true;
+}
+
+//^####################################
 int main() {
   if (!initSDL() || !createWindowAndRenderer()) {
     return 1;
   }
+
+  if (!initTTF() || !loadFont("UbuntuMono-B.ttf", WALLSIZE)) {
+    return 1;
+  }
+
   srand(time(0));
 
   Maze * maze = new Maze(MAZE_WIDTH, MAZE_HEIGHT, MAZE_FRAC);
 
-  
   int heroDeathTime = 0;
   Hero hero(MAZE_WIDTH/2 , 0, 1, maze);
   maze->setWall(hero.getYI(), hero.getXI(), false);
@@ -69,7 +92,7 @@ int main() {
 
       std::pair<int, int> coor = maze->handleMouseClicks(event);
       if( coor.first != -1){
-        int lvl = rand() % 10 - 6;
+        int lvl = rand() % 10 - 6 + coor.first / (MAZE_HEIGHT / 10);
         if( lvl > 0 ){
           Monster haha(coor.second, coor.first, monCount, lvl, maze);
           monCount++;

@@ -9,7 +9,7 @@ it requires SDL.
 in Ubuntu, 
 
 ```sh
->sudo apt install libsdl2-dev
+>sudo apt install libsdl2-dev libsdl2-ttf-dev
 >make 
 ```
 
