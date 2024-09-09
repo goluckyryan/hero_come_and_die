@@ -43,7 +43,10 @@ int main() {
   srand(time(0));
 
   Maze * maze = new Maze(MAZE_WIDTH, MAZE_HEIGHT, MAZE_FRAC);
-  Hero hero(MAZE_WIDTH/2 , 0, maze);
+
+  
+  int heroDeathTime = 0;
+  Hero hero(MAZE_WIDTH/2 , 0, 1, maze);
   maze->setWall(hero.getYI(), hero.getXI(), false);
 
   std::vector<Monster> mon;
@@ -55,6 +58,7 @@ int main() {
     maze->setWall(mon[i].getYI(), mon[i].getXI(), false);
   }
 
+  //^===================================
   bool running = true;
   while (running) {
     SDL_Event event;
@@ -75,6 +79,16 @@ int main() {
     }
     
     SDL_Delay(5);
+
+    // another hero
+    if( hero.getLevel() == 0 ) heroDeathTime += 5;
+
+    if( hero.getLevel() == 0 && heroDeathTime > 1000 ){
+      hero.setLevel(rand()%10 + 1);
+      hero.setPosition(MAZE_WIDTH/2 , 0);
+      heroDeathTime = 0;
+      printf("New Hero comes, lvl = %d\n", hero.getLevel());
+    }
 
     hero.move();
     maze->drawMaze();

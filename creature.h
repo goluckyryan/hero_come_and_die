@@ -19,6 +19,11 @@ public:
   int getYI() const { return yI; }
   int getLevel() const { return level; }
 
+  void setPosition(int xI, int yI){
+    x = xI * WALLSIZE;
+    y = yI * WALLSIZE;
+  }
+
   void move() {
     if( x % WALLSIZE == 0 && y % WALLSIZE == 0 ) changeDireaction();
     x += dx;
@@ -27,6 +32,7 @@ public:
     yI = y / WALLSIZE;
   }
 
+  void setLevel(short lvl) { level = lvl;}
   void addLevel(short lvl) { level += lvl;}
   void lowerLevel() { 
     level -= 1;
@@ -56,7 +62,7 @@ public:
       direction = static_cast<Direction>(randomDirection);
       switch (direction) {
         case Direction::UP: 
-          if (yI > 0 && maze->wallID(yI - 1, xI) != 1)  {
+          if (maze->wallID(yI - 1, xI) != 1)  {
             OK = true;
             dx = 0;
             dy = -1;
@@ -64,7 +70,7 @@ public:
           }
           break;
         case Direction::RIGHT: 
-          if (xI < MAZE_WIDTH - 1 && maze->wallID(yI, xI + 1) != 1) {
+          if (maze->wallID(yI, xI + 1) != 1) {
             OK = true;
             dx = 1;
             dy = 0;
@@ -72,7 +78,7 @@ public:
           }
           break;
         case Direction::DOWN: 
-          if (yI < MAZE_HEIGHT - 1 && maze->wallID(yI + 1, xI) != 1) {
+          if ( maze->wallID(yI + 1, xI) != 1) {
             OK = true;
             dx = 0;
             dy = 1;
@@ -80,7 +86,7 @@ public:
           }
           break;
         case Direction::LEFT: 
-          if (xI > 0 && maze->wallID(yI,xI - 1) != 1) {
+          if ( maze->wallID(yI,xI - 1) != 1) {
             OK = true;
             dx = -1;
             dy = 0;

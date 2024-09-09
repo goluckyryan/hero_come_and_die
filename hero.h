@@ -5,8 +5,8 @@
 
 class Hero : public Creature {
 public:
-  Hero(int xI, int yI, Maze * maze) : Creature(xI, yI, maze) {
-
+  Hero(int xI, int yI, int level, Maze * maze) : Creature(xI, yI, maze) {
+    this->level = level;
   }
 
   void lowerLevel() { 
