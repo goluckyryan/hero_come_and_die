@@ -118,6 +118,7 @@ int main() {
     hero.draw();
     for( int i = 0; i < (int) mon.size(); i++) {
       mon[i].move();
+      mon[i].checkLifetime();
       mon[i].draw();
 
       if( mon[i].getXI() == hero.getXI() && mon[i].getYI() == hero.getYI() ){

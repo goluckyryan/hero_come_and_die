@@ -2,6 +2,7 @@
 #define MONSTER_H
 
 #include "creature.h"
+#include <chrono>
 
 class Monster : public Creature {
 public:
@@ -9,6 +10,7 @@ public:
   Monster(int xI, int yI, int ID, int level, Maze * maze) : Creature(xI, yI, maze) {
     this->ID = ID;
     this->level = level;
+    startTime = std::chrono::steady_clock::now();
     // printf("monster created (%d, %d) lvl= %d\n", xI, yI, level);
   }
 
@@ -16,6 +18,16 @@ public:
     Creature::lowerLevel();
     if( level == 0 ) {
       printf("monster-%d dead\n", ID);
+    }
+  }
+
+  void checkLifetime() {
+    auto currentTime = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsedTime = currentTime - startTime;
+
+    if (elapsedTime.count() > 5) { // Check if 5 seconds have passed
+      level -= 1;
+      startTime = std::chrono::steady_clock::now();
     }
   }
 
@@ -47,6 +59,7 @@ public:
 
 private:
   int ID;
+  std::chrono::time_point<std::chrono::steady_clock> startTime;
 };
 
 #endif
